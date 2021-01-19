@@ -1,4 +1,6 @@
 const dino = document.querySelector(".dino"); //variavel que nao sera sobrescrita
+const background = document.querySelector(".background");
+
 let isJumping = false;
 
 function tKeyUp(event){
@@ -15,7 +17,7 @@ function pular(){
 
     isJumping = true;
 
-    let upInterval = setinterval(() => {
+    let upInterval = setInterval(() => {
         if ( posicao >= 150){ //parar de subir
             clearInterval(upInterval);
 
@@ -39,5 +41,30 @@ function pular(){
     }, 20);
 }
 
+function criarCactos(){
+    const cactos = document.createElement('div');
+    let posicaoCactos = 1000;
+    let radomTime = Math.radom() * 6000;
 
+    cactos.classList.add('cactos');
+    cactos.style.left = 1000 + 'px';
+    background.appendChild(cactos);
+
+    let leftInterval = setInterval(() => {
+        
+        
+        if (posicaoCactos < -60) {
+            clearInterval(leftInterval);
+            background.removeChild(cactos);
+        } else if (posicaoCactos > 0 &){
+            posicaoCactos -= 10;
+            cactos.style.left = posicaoCactos + 'px';
+        }
+
+    }, 20);
+
+    setTimeout(criarCactos, randomTime);
+}
+
+criarCactos();
 document.addEventListener('keyup', tKeyUp);
