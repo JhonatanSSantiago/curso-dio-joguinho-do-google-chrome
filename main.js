@@ -1,7 +1,9 @@
 const dino = document.querySelector(".dino"); //variavel que nao sera sobrescrita
 const background = document.querySelector(".background");
-
+let posicao = 0;
 let isJumping = false;
+let isGameOver = false;
+
 
 function tKeyUp(event){
     if (event.keyCode === 32) {
@@ -13,7 +15,7 @@ function tKeyUp(event){
 }
 
 function pular(){
-    let posicao = 0;
+    
 
     isJumping = true;
 
@@ -44,27 +46,31 @@ function pular(){
 function criarCactos(){
     const cactos = document.createElement('div');
     let posicaoCactos = 1000;
-    let radomTime = Math.radom() * 6000;
+    let randomTime = Math.random() * 6000;
+    
+    if (isGameOver) return;
 
     cactos.classList.add('cactos');
-    cactos.style.left = 1000 + 'px';
     background.appendChild(cactos);
+    cactos.style.left = 1000 + 'px';
 
-    let leftInterval = setInterval(() => {
-        
-        
+    let leftInterval = setInterval(() => {   
         if (posicaoCactos < -60) {
             clearInterval(leftInterval);
             background.removeChild(cactos);
-        } else if (posicaoCactos > 0 &){
+        } else if (posicaoCactos > 0 && posicaoCactos < 60 && posicao < 60){//Game over
+            clearInterval(leftInterval);
+            isGameOver = true;
+            document.body.innerHTML = '<h1 class="game-over"> Fim de Jogo </h1> '
+        }else{
             posicaoCactos -= 10;
             cactos.style.left = posicaoCactos + 'px';
         }
 
-    }, 20);
+    }, 15);
 
     setTimeout(criarCactos, randomTime);
 }
 
 criarCactos();
-document.addEventListener('keyup', tKeyUp);
+document.addEventListener('keydown', tKeyUp);
